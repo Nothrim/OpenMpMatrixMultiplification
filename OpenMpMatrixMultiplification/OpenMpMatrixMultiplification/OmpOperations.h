@@ -6,6 +6,7 @@
 # include <math.h>
 # include <omp.h>
 #include <iostream>
+#include <thread>
 void task1_1() {
 #pragma omp parallel num_threads(2)
 {
@@ -141,17 +142,42 @@ void exam3() {
 #pragma omp parallel firstprivate(i)
 	{
 #pragma omp for
-		for (i = 0; i < 75; i++){
+		for (i=0; i < 75; i++) {
 			t1[i] = int((float(rand()) / RAND_MAX) * 20);;
 			t2[i] = int((float(rand()) / RAND_MAX) * 20);;
 		}
 #pragma omp for reduction(+:a)
-		for (i = 0; i < 75; i++)
+		for (i=0; i < 75; i++)
 			a += t1[i] + t2[i];
 	}
 	int b = 0;
-	for (i = 0; i < 75; i++)
+	for (i=0; i < 75; i++)
 		b += t1[i] + t2[i];
 	if (a != b)std::cout << "rozne" << std::endl;
 	else std::cout << "takie same" << std::endl;
+}
+void exam2_1(int threads) {
+	omp_set_num_threads(threads);
+#pragma omp parallel for
+	for (int i = 0; i < 10; i++) {
+#pragma omp critical
+		std::cout << "i=" << i << " from 9 number=" << omp_get_thread_num()<<std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds((int(float(rand()) / RAND_MAX) * 400) + 100));
+	}
+}
+void exam2_2() {
+	int t1[100], t2[100];
+	for (int i = 0; i < 100; i++) {
+		t1[i] = int((float(rand()) / RAND_MAX) * i);
+	}
+	omp_set_num_threads(omp_get_num_procs());
+#pragma omp parallel
+	{
+#pragma omp for schedule(dynamic,2)
+		for (int i = 0; i < 100; i++)
+			t2[i] = int((float(rand()) / RAND_MAX) * i);
+#pragma omp single
+		for (int i = 0; i < 100; i++)
+			std::cout << t1[i] << "  " << t2[i] << std::endl;
+	}
 }

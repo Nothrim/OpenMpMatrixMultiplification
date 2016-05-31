@@ -44,6 +44,10 @@ int main(int argc, char *argv[])
 	exam2();
 	std::cout << std::endl << "Exam 3" << std::endl;
 	exam3();
+	std::cout << std::endl << "Exam 2_1" << std::endl;
+	exam2_1(2);
+	std::cout << std::endl << "Exam 2_2" << std::endl;
+	exam2_2();
 	getchar();
 	return 0;
 }
