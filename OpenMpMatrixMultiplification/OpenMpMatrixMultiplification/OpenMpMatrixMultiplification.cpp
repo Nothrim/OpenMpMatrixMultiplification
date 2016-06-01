@@ -30,6 +30,8 @@ int main(int argc, char *argv[])
 	task1_3();
 	std::cout << std::endl << "TASK 1_4" << std::endl;
 	task1_4();
+	std::cout << std::endl << "TASK 1_5" << std::endl;
+	task1_5();
 	std::cout << std::endl << "TASK 3" << std::endl;
 	task3();
 	std::cout << std::endl << "TASK 3_reduction" << std::endl;
@@ -38,6 +40,8 @@ int main(int argc, char *argv[])
 	task3_exercise();
 	std::cout << std::endl << "TASK 4" << std::endl;
 	task4();
+	std::cout << std::endl << "TASK 5" << std::endl;
+	task5();
 	std::cout << std::endl << "Exam 1" << std::endl;
 	exam1(omp_get_num_procs());
 	std::cout << std::endl << "Exam 2" << std::endl;

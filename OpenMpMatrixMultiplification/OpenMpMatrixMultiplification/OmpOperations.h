@@ -49,6 +49,14 @@ void task1_4() {
 			std::cout << "Step " << i << ", thread number " << omp_get_thread_num() << " from " << nthreads
 			<< std::endl;
 }
+void task1_5() {
+	omp_set_num_threads(omp_get_num_procs());
+	double t=omp_get_wtime();
+#pragma omp parallel for schedule(dynamic)
+	for (int i = 0; i < 32; i++) 
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	std::cout << "Execution time=" << omp_get_wtime() - t<<std::endl;
+}
 void task3() {
 	int tab[] = { 1,2,3,4,5,6,7,8,9,10 }, threads;
 	long int a = 1;
@@ -105,6 +113,20 @@ void task4() {
 		a += tab[i];
 	}
 	std::cout << a<<std::endl <<"time="<<omp_get_wtime()-time<<std::endl;
+}
+void task5() {
+	double result=0.0;
+	double b = 3.14;
+	double a=0;
+	std::cout << "thread is running... " << std::endl;
+	double h = (b - a) / 10;
+	double s = sin(a);
+#pragma omp parallel for reduction(+:s)
+	for (int i = 0; i < 10; i++)
+		s += 2 * sin(a + i*h);
+	s += sin(b);
+	result = s*h / 2;
+	std::cout << "result=" << result << std::endl;
 }
 void exam1(int threads) {
 	omp_set_num_threads(threads);
